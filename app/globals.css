@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0f1535;
+  --foreground: #ece9fb;
 }
 
 @theme inline {
@@ -12,15 +12,55 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+}
+
+.space-bg {
+  background:
+    radial-gradient(1200px 600px at 85% -10%, rgba(120, 100, 255, 0.22), transparent 60%),
+    radial-gradient(900px 500px at -10% 110%, rgba(45, 212, 191, 0.12), transparent 60%),
+    #0f1535;
+}
+
+.panel {
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1.5rem;
+  backdrop-filter: blur(6px);
+}
+
+input[type="range"] {
+  accent-color: #c7d2fe;
+}
+
+.region-shape {
+  transition: fill-opacity 0.2s, stroke-width 0.2s;
+}
+.region:hover .region-shape,
+.region:focus-visible .region-shape {
+  fill-opacity: 0.4;
+  stroke-width: 2.5;
+}
+.region:focus-visible .region-shape {
+  stroke: #ffffff;
+}
+
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid #c7d2fe;
+  outline-offset: 2px;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.25; }
+  50% { opacity: 0.7; }
+}
+.pulse {
+  animation: pulse-glow 1.8s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .pulse { animation: none; }
 }
