@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AstroHealth — NASA Space Apps Presentation</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: #09090b;
+      color: #fafafa;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .presentation-container {
+      width: 100%;
+      max-width: 960px;
+      aspect-ratio: 16 / 9;
+      background: #18181b;
+      border: 1px solid #3f3f46;
+      border-radius: 12px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+    .slide {
+      display: none;
+      flex-direction: column;
+      height: 100%;
+      padding: 48px 56px;
+      justify-content: space-between;
+    }
+    .slide.active {
+      display: flex;
+    }
+    .slide-header {
+      border-bottom: 1px solid #27272a;
+      padding-bottom: 16px;
+    }
+    .slide-tag {
+      font-size: 11px;
+      font-family: monospace;
+      color: #3b82f6;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 6px;
+    }
+    .slide-title {
+      font-size: 28px;
+      font-weight: 700;
+      color: #fafafa;
+      line-height: 1.2;
+    }
+    .slide-subtitle {
+      font-size: 14px;
+      color: #a1a1aa;
+      margin-top: 4px;
+    }
+    .slide-body {
+      flex: 1;
+      padding: 24px 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .slide-footer {
+      border-top: 1px solid #27272a;
+      padding-top: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: #71717a;
+      font-family: monospace;
+    }
+    /* Grid cards inside slides */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+    }
+    .card {
+      background: #09090b;
+      border: 1px solid #27272a;
+      border-radius: 8px;
+      padding: 16px;
+    }
+    .card-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #fafafa;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card-text {
+      font-size: 12px;
+      color: #a1a1aa;
+      line-height: 1.5;
+    }
+    .highlight-pill {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 600;
+      font-family: monospace;
+    }
+    .pill-green { background: rgba(34, 197, 94, 0.15); color: #22c55e; border: 1px solid rgba(34, 197, 94, 0.3); }
+    .pill-amber { background: rgba(245, 158, 11, 0.15); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.3); }
+    .pill-red { background: rgba(239, 68, 68, 0.15); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3); }
+    .pill-blue { background: rgba(59, 130, 246, 0.15); color: #3b82f6; border: 1px solid rgba(59, 130, 246, 0.3); }
+
+    /* Navigation Controls */
+    .controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin-top: 16px;
+    }
+    .btn {
+      background: #27272a;
+      border: 1px solid #3f3f46;
+      color: #fafafa;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn:hover { background: #3f3f46; }
+    .slide-dots {
+      display: flex;
+      gap: 6px;
+    }
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #3f3f46;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .dot.active { background: #3b82f6; width: 24px; border-radius: 4px; }
+  </style>
+</head>
+<body>
+
+  <div class="presentation-container">
+    <!-- SLIDE 1: Title -->
+    <div class="slide active" id="slide-1">
+      <div class="slide-header">
+        <div class="slide-tag">NASA Space Apps Challenge 2026 // Mission Medical Autonomy</div>
+        <h1 class="slide-title" style="font-size: 34px;">AstroHealth</h1>
+        <p class="slide-subtitle">Autonomous Health Monitoring & Clinical Guidance for Long-Duration Space Missions</p>
+      </div>
+      <div class="slide-body" style="justify-content: center; align-items: center; text-align: center;">
+        <div style="max-width: 680px; margin: 0 auto;">
+          <p style="font-size: 16px; color: #d4d4d8; line-height: 1.6; margin-bottom: 24px;">
+            Empowering astronauts on lunar and Martian missions to autonomously detect physiological deterioration, prevent critical health events, and execute evidence-based countermeasures when Earth is light-minutes away.
+          </p>
+          <div style="display: flex; justify-content: center; gap: 12px;">
+            <span class="highlight-pill pill-blue">NASA HRP 5 Hazards</span>
+            <span class="highlight-pill pill-green">10 Clinical Indicators</span>
+            <span class="highlight-pill pill-amber">Local-First Architecture</span>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>Slide 1 / 7</span>
+        <span>AstroHealth Core Overview</span>
+      </div>
+    </div>
+
+    <!-- SLIDE 2: Problem -->
+    <div class="slide" id="slide-2">
+      <div class="slide-header">
+        <div class="slide-tag">Operational Challenge</div>
+        <h2 class="slide-title">The 5 Spaceflight Hazards & The Telemedicine Gap</h2>
+        <p class="slide-subtitle">Why traditional ground-supported medical monitoring fails on deep-space journeys</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card" style="border-left: 3px solid #ef4444;">
+            <div class="card-title">⚠️ Ground Telemedicine Blackout</div>
+            <p class="card-text">
+              Communication delays between Mars and Earth reach up to <strong>22 minutes one-way (44-minute round trip)</strong>. Real-time surgical or emergency consultation is physically impossible.
+            </p>
+          </div>
+          <div class="card" style="border-left: 3px solid #f59e0b;">
+            <div class="card-title">🦴 Altered Gravity Adaptation</div>
+            <p class="card-text">
+              Microgravity causes cephalad fluid shifts, baroreceptor resetting, <strong>1–2% monthly bone density loss</strong>, and severe cardiovascular deconditioning without daily targeted countermeasures.
+            </p>
+          </div>
+          <div class="card" style="border-left: 3px solid #3b82f6;">
+            <div class="card-title">⚡ Ionizing Space Radiation</div>
+            <p class="card-text">
+              Unshielded galactic cosmic rays (GCR) and solar particle events (SPE) induce DNA strand breaks, elevating lifetime fatal cancer risk and cognitive degradation.
+            </p>
+          </div>
+          <div class="card" style="border-left: 3px solid #a855f7;">
+            <div class="card-title">🧠 Confinement & Closed Environment</div>
+            <p class="card-text">
+              Circadian disruption (16 sunrises/day on ISS), noise, and social isolation impair sleep architecture, cognitive alertness, and crew behavioral health.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>Slide 2 / 7</span>
+        <span>Operational Needs</span>
+      </div>
+    </div>
+
+    <!-- SLIDE 3: System Overview -->
+    <div class="slide" id="slide-3">
+      <div class="slide-header">
+        <div class="slide-tag">Solution Architecture</div>
+        <h2 class="slide-title">AstroHealth: Autonomous Clinical Intelligence</h2>
+        <p class="slide-subtitle">A minimal, zero-latency clinical console built for spacecraft environments</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-3">
+          <div class="card">
+            <div class="card-title">📊 10 Monitored Indicators</div>
+            <p class="card-text">
+              Heart rate, Systolic & Diastolic BP, SpO₂, Core Temp, Blood Glucose, Daily Sleep, Mood Score, Daily Radiation, and Fluid Intake.
+            </p>
+          </div>
+          <div class="card">
+            <div class="card-title">🎯 Tri-Color Triage</div>
+            <p class="card-text">
+              Standardized NASA color-coded risk tiers:
+              <br><span class="highlight-pill pill-green" style="margin-top: 6px;">Normal</span>
+              <span class="highlight-pill pill-amber">Caution</span>
+              <span class="highlight-pill pill-red">Critical</span>
+            </p>
+          </div>
+          <div class="card">
+            <div class="card-title">🔒 100% Local-First</div>
+            <p class="card-text">
+              Zero dependency on external cloud backends. Runs natively inside spacecraft avionics with instant offline persistence and encrypted storage.
+            </p>
+          </div>
+        </div>
+        <div style="margin-top: 16px; padding: 12px 16px; background: #09090b; border: 1px solid #27272a; border-radius: 8px;">
+          <p style="font-size: 12px; color: #d4d4d8;">
+            <strong style="color: #3b82f6;">Design Philosophy:</strong> Strictly adheres to medical-aerospace usability principles. Clean dark zinc console designed for high legibility under dim cabin lighting—zero distracting AI gimmicks or purple glowing clutter.
+          </p>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>Slide 3 / 7</span>
+        <span>Architecture & Triage</span>
+      </div>
+    </div>
+
+    <!-- SLIDE 4: Interactive Body Map & Rapid Logging -->
+    <div class="slide" id="slide-4">
+      <div class="slide-header">
+        <div class="slide-tag">Key Feature 01</div>
+        <h2 class="slide-title">Interactive Anatomical Body Map & Vitals Logging</h2>
+        <p class="slide-subtitle">Visual anatomical mapping linked directly to physiological telemetry</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">◎ 7 Anatomical Zones</div>
+            <p class="card-text">
+              Interactive vector-rendered human silhouette with real-time status color coding:
+              <br>• <strong>Head:</strong> Neuro-behavioral, circadian & temp
+              <br>• <strong>Chest:</strong> Cardiac workload & pulmonary SpO₂
+              <br>• <strong>Abdomen:</strong> Glucose & fluid balance
+              <br>• <strong>Extremities:</strong> Blood pressure cuff & pulse ox
+              <br>• <strong>Lower Body:</strong> Trabecular bone preservation
+              <br>• <strong>Collar Dosimeter:</strong> Ionizing radiation badge
+            </p>
+          </div>
+          <div class="card">
+            <div class="card-title">⊕ Rapid Logging & Alert Triage</div>
+            <p class="card-text">
+              • <strong>Rapid Entry:</strong> 1-click indicator selection with instant input validation.
+              <br>• <strong>Immediate Feedback:</strong> Dynamic color banner with targeted clinical response.
+              <br>• <strong>Automated Alerts:</strong> Values crossing caution or critical bounds automatically dispatch to the mission alert queue.
+              <br>• <strong>Audit Log:</strong> Chronological records with timestamped notes.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>Slide 4 / 7</span>
+        <span>Anatomical Mapping & Input</span>
+      </div>
+    </div>
+
+    <!-- SLIDE 5: Dynamic Trends & Radiation Tracking -->
+    <div class="slide" id="slide-5">
+      <div class="slide-header">
+        <div class="slide-tag">Key Feature 02</div>
+        <h2 class="slide-title">Physiological Trends & Cumulative Radiation Tracker</h2>
+        <p class="slide-subtitle">Long-term trajectory tracking to detect subtle microgravity degradation</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">📈 Dynamic Recharts Analytics</div>
+            <p class="card-text">
+              • <strong>Multi-timespan filtering:</strong> 7 Days, 14 Days, 30 Days, or All Time.
+              <br>• <strong>Clinical reference bands:</strong> Dashed nominal threshold indicators.
+              <br>• <strong>Telemetry statistics:</strong> Automatic computation of Minimum, Maximum, Average, and trend direction (↑, ↓, →).
+              <br>• <strong>System categorization:</strong> Filter by cardiovascular, respiratory, metabolic, behavioral, or radiation.
+            </p>
+          </div>
+          <div class="card">
+            <div class="card-title">⚡ Cumulative Dosimeter Meter</div>
+            <p class="card-text">
+              • <strong>Career Threshold Comparison:</strong> Real-time progress bar evaluating total absorbed mission dose against NASA's <strong>1,000 mSv career limit</strong>.
+              <br>• <strong>Solar Particle Event (SPE) Detection:</strong> Immediate warnings to move to module storm shelters when solar fluxes surge.
+              <br>• <strong>Scientific Basis:</strong> NASA-STD-3001 and Canadian Space Agency (CSA) radiation guidelines.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>Slide 5 / 7</span>
+        <span>Trend Analytics & Dosimetry</span>
+      </div>
+    </div>
+
+    <!-- SLIDE 6: Protocols & Countermeasures -->
+    <div class="slide" id="slide-6">
+      <div class="slide-header">
+        <div class="slide-tag">Key Feature 03</div>
+        <h2 class="slide-title">Evidence-Based Clinical Protocols & Countermeasures</h2>
+        <p class="slide-subtitle">Actionable interventions derived from NASA's Human Research Program</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">📋 Dual-Tab Metric Protocols</div>
+            <p class="card-text">
+              Every indicator features:
+              <br>• <strong>Action Protocol:</strong> Step-by-step guidance for Low, Normal, and High values.
+              <br>• <strong>Flight Surgeon Thresholds:</strong> Explicit criteria for when crew must escalate to ground medical teams.
+              <br>• <strong>Pathophysiology:</strong> Explains how microgravity alters normal bodily baseline values.
+            </p>
+          </div>
+          <div class="card">
+            <div class="card-title">🛡️ Standard Spaceflight Directives</div>
+            <p class="card-text">
+              • <strong>ARED Exercise (2.5h/day):</strong> High-load squats & cycle intervals to stop bone loss.
+              <br>• <strong>Renal & Bone Nutrition:</strong> Sodium restriction and calcium/Vit-D3 supplementation.
+              <br>• <strong>Circadian Entrainment:</strong> Solid-state light shifting and acoustic suppression.
+              <br>• <strong>Emergency CAPCOM:</strong> Acute stabilization checklists during comm blackouts.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>Slide 6 / 7</span>
+        <span>Medical Protocols</span>
+      </div>
+    </div>
+
+    <!-- SLIDE 7: Impact & Roadmap -->
+    <div class="slide" id="slide-7">
+      <div class="slide-header">
+        <div class="slide-tag">Mission Impact & Future</div>
+        <h2 class="slide-title">Enabling Safe Human Exploration of the Solar System</h2>
+        <p class="slide-subtitle">From Artemis lunar bases to the first human footsteps on Mars</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-3">
+          <div class="card" style="border-top: 3px solid #22c55e;">
+            <div class="card-title">🚀 Crew Autonomy</div>
+            <p class="card-text">
+              Eliminates dependence on real-time Earth support, transforming astronauts into capable, self-sufficient medical monitors.
+            </p>
+          </div>
+          <div class="card" style="border-top: 3px solid #3b82f6;">
+            <div class="card-title">🛰️ Multi-Vehicle Scalability</div>
+            <p class="card-text">
+              Designed to adapt from Orion capsules to Lunar Gateway, pressurized surface rovers, and permanent Martian bases.
+            </p>
+          </div>
+          <div class="card" style="border-top: 3px solid #f59e0b;">
+            <div class="card-title">🌍 Earth Telehealth Impact</div>
+            <p class="card-text">
+              Direct spin-off application for remote Antarctic research bases, naval submarines, and isolated rural clinical health care.
+            </p>
+          </div>
+        </div>
+        <div style="margin-top: 16px; text-align: center;">
+          <p style="font-size: 13px; font-family: monospace; color: #a1a1aa;">
+            Live Software & Repository: <strong style="color: #3b82f6;">https://github.com/MohAymann/Nasa.git</strong>
+          </p>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>Slide 7 / 7</span>
+        <span>AstroHealth // NASA Space Apps Challenge</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide Navigation Controls -->
+  <div class="controls">
+    <button class="btn" id="prevBtn" onclick="changeSlide(-1)">← Previous</button>
+    <div class="slide-dots" id="dotsContainer"></div>
+    <button class="btn" id="nextBtn" onclick="changeSlide(1)">Next →</button>
+  </div>
+
+  <script>
+    let currentSlide = 1;
+    const totalSlides = 7;
+
+    const dotsContainer = document.getElementById('dotsContainer');
+    for (let i = 1; i <= totalSlides; i++) {
+      const dot = document.createElement('div');
+      dot.className = 'dot' + (i === 1 ? ' active' : '');
+      dot.onclick = () => goToSlide(i);
+      dotsContainer.appendChild(dot);
+    }
+
+    function updateSlides() {
+      for (let i = 1; i <= totalSlides; i++) {
+        document.getElementById(`slide-${i}`).classList.toggle('active', i === currentSlide);
+      }
+      const dots = document.querySelectorAll('.dot');
+      dots.forEach((dot, idx) => {
+        dot.classList.toggle('active', idx + 1 === currentSlide);
+      });
+      document.getElementById('prevBtn').disabled = currentSlide === 1;
+      document.getElementById('nextBtn').disabled = currentSlide === totalSlides;
+    }
+
+    function changeSlide(direction) {
+      currentSlide = Math.max(1, Math.min(totalSlides, currentSlide + direction));
+      updateSlides();
+    }
+
+    function goToSlide(slideNum) {
+      currentSlide = slideNum;
+      updateSlides();
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ') changeSlide(1);
+      if (e.key === 'ArrowLeft') changeSlide(-1);
+    });
+  </script>
+</body>
+</html>
